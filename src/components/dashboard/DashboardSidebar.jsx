@@ -10,6 +10,7 @@ export function DashboardSidebar() {
         { icon: Bell, href: "/dashboard/owner/add-property", label: "Add Property" },
         { icon: Briefcase, href: "/dashboard/owner/my-properties", label: "My Properties" },
         { icon: Envelope, href: "/dashboard/owner/booking-requests", label: "Booking Requests" },
+        { icon: Envelope, href: "/dashboard/owner/profile", label: "Profile" },
     ];
 
     const navContent = <nav className="flex flex-col gap-1">
