@@ -6,13 +6,10 @@ import Link from "next/link";
 
 export function DashboardSidebar() {
     const navItems = [
-        { icon: House, href: "/dashboard/recruiter", label: "Home" },
-        { icon: Magnifier, href: "/dashboard/recruiter/jobs", label: "Jobs" },
-        { icon: Bell, href: "/dashboard/recruiter/jobs/new", label: "Post A Job" },
-        { icon: Briefcase, href: "/dashboard/recruiter/company", label: "Company Profile" },
-        { icon: Envelope, href: "/messages", label: "Messages" },
-        { icon: Person, href: "/profile", label: "Profile" },
-        { icon: Gear, href: "/settings", label: "Settings" },
+        { icon: House, href: "/dashboard/owner", label: "Owner Dashboard Home (Analytics)" },
+        { icon: Bell, href: "/dashboard/owner/add-property", label: "Add Property" },
+        { icon: Briefcase, href: "/dashboard/owner/my-properties", label: "My Properties" },
+        { icon: Envelope, href: "/dashboard/owner/booking-requests", label: "Booking Requests" },
     ];
 
     const navContent = <nav className="flex flex-col gap-1">
