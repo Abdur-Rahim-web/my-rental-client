@@ -8,7 +8,6 @@ import { getOwnerProperties } from "@/lib/api/property";
 import UpdatePropertyModal from "@/components/dashboard/UpdatePropertyModal";
 
 export default function MyPropertiesPage() {
-  // Better Auth থেকে সেশন এবং লোডিং স্টেট নেওয়া
   const { data: session, isPending } = useSession();
   const [properties, setProperties] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -35,7 +34,7 @@ export default function MyPropertiesPage() {
           setLoading(false);
         }
       } else if (!isPending) {
-        // সেশন চেক শেষ হওয়ার পর যদি ইমেইল না থাকে
+       
         setLoading(false);
       }
     };

@@ -6,6 +6,7 @@ import Hero from "@/components/Home/Hero";
 import WhyChooseUs from "@/components/Home/WhyChooseUs";
 import CustomerReviews from "@/components/Home/CustomerReviews";
 import ExtraSections from "@/components/Home/ExtraSections";
+import FeaturedProperties from "@/components/home/FeaturedProperties";
 
 export default function HomePage() {
   // Global login state to control navigation rules in Featured Properties
@@ -14,7 +15,7 @@ export default function HomePage() {
   return (
     <main className="w-full min-h-screen bg-background">
       <Hero />
-      {/* <FeaturedProperties isLoggedIn={isLoggedIn} /> */}
+      <FeaturedProperties  />
       <WhyChooseUs />
       <CustomerReviews />
       <ExtraSections />
