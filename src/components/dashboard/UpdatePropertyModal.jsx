@@ -3,6 +3,7 @@
 import React, { useState } from "react";
 import { toast } from "react-toastify";
 import { Form, TextField, Label, Input, Button, TextArea } from "@heroui/react";
+import { updateProperty } from "@/lib/actions/property";
 
 export default function UpdatePropertyModal({ property, onClose, onUpdateSuccess }) {
     const [loading, setLoading] = useState(false);
@@ -14,47 +15,40 @@ export default function UpdatePropertyModal({ property, onClose, onUpdateSuccess
         e.preventDefault();
         setLoading(true);
         const formData = new FormData(e.currentTarget);
-        const updatedData = Object.fromEntries(formData.entries());
+        const data = Object.fromEntries(formData.entries());
 
         const finalData = {
-            ...updatedData,
-            rent: parseFloat(updatedData.rent),
-            bedrooms: parseInt(updatedData.bedrooms),
-            bathrooms: parseInt(updatedData.bathrooms),
-            size: parseInt(updatedData.size),
+            ...data,
+            rent: parseFloat(data.rent),
+            bedrooms: parseInt(data.bedrooms),
+            bathrooms: parseInt(data.bathrooms),
+            size: parseInt(data.size),
+            amenities: data.amenities.split(',').map(item => item.trim()),
+            images: data.images.split(',').map(item => item.trim()),
         };
 
-        try {
-            const res = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/api/properties/${property._id}`, {
-                method: "PATCH",
-                headers: { "Content-Type": "application/json" },
-                body: JSON.stringify(finalData),
-            });
+        const result = await updateProperty(property._id, finalData);
 
-            if (res.ok) {
-                toast.success("Property updated successfully!");
-                onUpdateSuccess({ ...property, ...finalData });
-            } else {
-                toast.error("Failed to update.");
-            }
-        } catch (error) {
-            toast.error("Something went wrong!");
-        } finally {
-            setLoading(false);
+        if (!result.error) {
+            toast.success("Property updated successfully!");
+            onUpdateSuccess({ ...property, ...finalData });
+            onClose();
+        } else {
+            toast.error(result.error || "Failed to update.");
         }
+        setLoading(false);
     };
-
     return (
         <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4">
-            {/* মেইন মোডাল কন্টেইনার */}
+            
             <div className="bg-white rounded-xl shadow-2xl w-full max-w-2xl flex flex-col max-h-[90vh]">
+
                 
-                {/* ফিক্সড হেডার */}
                 <div className="p-6 border-b border-zinc-100 shrink-0">
                     <h2 className="text-xl font-bold text-black">Update Property</h2>
                 </div>
 
-                {/* স্ক্রলেবল বডি */}
+                
                 <div className="p-6 overflow-y-auto">
                     <Form onSubmit={handleUpdate} className="space-y-4">
                         <TextField name="title" defaultValue={property.title} isRequired className="flex flex-col gap-2">
@@ -122,7 +116,7 @@ export default function UpdatePropertyModal({ property, onClose, onUpdateSuccess
                             <Input className={inputClass} />
                         </TextField>
 
-                        {/* বাটন সেকশন */}
+                        
                         <div className="flex gap-3 mt-6 pt-4 border-t border-zinc-100">
                             <Button type="button" onClick={onClose} className="w-full bg-zinc-400">Cancel</Button>
                             <Button type="submit" isLoading={loading} className="w-full bg-blue-600 text-white">Save Changes</Button>

@@ -22,3 +22,53 @@ export const createProperty = async (newPropertyData) => {
         return { error: error.message };
     }
 }
+
+
+export const updateProperty = async (id, updatedData) => {
+    try {
+        const res = await fetch(`${baseUrl}/api/properties/${id}`, {
+            method: 'PATCH',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(updatedData),
+        });
+
+        if (!res.ok) {
+            throw new Error('Failed to update property');
+        }
+
+        return await res.json();
+    } catch (error) {
+        console.error("Error in updateProperty:", error);
+        return { error: error.message };
+    }
+};
+
+
+export const deleteProperty = async (id) => {
+    try {
+        const res = await fetch(`${baseUrl}/api/properties/${id}`, {
+            method: 'DELETE',
+        });
+
+        if (!res.ok) {
+            throw new Error('Failed to delete property');
+        }
+
+        return await res.json();
+    } catch (error) {
+        console.error("Error in deleteProperty:", error);
+        return { error: error.message };
+    }
+};
+
+
+export const updateBookingStatus = async (id, status) => {
+    const res = await fetch(`${baseUrl}/api/bookings/${id}`, {
+        method: 'PATCH',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ status }),
+    });
+    return res.json();
+};
