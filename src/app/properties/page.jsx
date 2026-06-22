@@ -48,7 +48,7 @@ const AllPropertyPage = () => {
                     <motion.div 
                         key={property._id?.$oid || property._id}
                         whileHover={{ y: -10 }}
-                        transition={{ duration: 0.3 }}
+                        transition={{ duration: 0.3}}
                     >
                         <PropertyCard property={property} />
                     </motion.div>

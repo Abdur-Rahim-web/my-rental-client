@@ -2,9 +2,9 @@
 import React, { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { useSession } from '@/lib/auth-client'; 
-import PropertyCard from '../property/PropertyCard';
 import { getFeaturedProperties } from '@/lib/api/property';
 import { motion } from 'framer-motion';
+import PropertyCard from '../property/PropertyCard';
 
 
 const FeaturedProperties = () => {

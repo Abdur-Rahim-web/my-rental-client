@@ -33,7 +33,7 @@ export const getAllProperties = async () => {
 export const getFeaturedProperties = async () => {
     try {
         const res = await fetch(`${baseUrl}/api/featured-properties`, {
-            cache: 'no-store' 
+            cache: 'no-store'
         });
 
         if (!res.ok) throw new Error('Failed to fetch featured properties');
@@ -42,5 +42,17 @@ export const getFeaturedProperties = async () => {
     } catch (error) {
         console.error("Error fetching featured properties:", error);
         return [];
+    }
+};
+
+
+export const getPropertyById = async (id) => {
+    try {
+        const res = await fetch(`${baseUrl}/api/properties/${id}`, { cache: 'no-store' });
+        if (!res.ok) throw new Error('Failed to fetch property details');
+        return await res.json();
+    } catch (error) {
+        console.error("Error:", error);
+        return null;
     }
 };
