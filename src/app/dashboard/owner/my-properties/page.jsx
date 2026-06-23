@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useEffect, useState } from "react";
-import { useSession } from "@/lib/auth-client"; // আপনার প্রজেক্টের সঠিক পাথ অনুযায়ী
+import { useSession } from "@/lib/auth-client"; 
 import { toast } from "react-toastify";
 import MyPropertiesTable from "@/components/dashboard/MyPropertiesTable";
 import { getOwnerProperties } from "@/lib/api/property";
@@ -42,12 +42,12 @@ export default function MyPropertiesPage() {
     fetchProperties();
   }, [session, isPending]);
 
-  // লোডিং স্টেট হ্যান্ডেল করা
+  
   if (isPending || loading) {
     return <div className="p-10 text-center text-zinc-500">Loading your properties...</div>;
   }
 
-  // ইউজার লগইন না থাকলে মেসেজ দেখানো
+  
   if (!session?.user) {
     return (
       <div className="p-10 text-center">

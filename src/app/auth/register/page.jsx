@@ -1,13 +1,16 @@
 "use client";
 
 import { useState } from "react";
-import { Card, Button, Link, TextField, Label, InputGroup, Input } from "@heroui/react";
-import { Radio, RadioGroup } from "@heroui/react";
-
+import { useSearchParams, useRouter } from "next/navigation";
+import { Card, Button, Link, TextField, Label, InputGroup, Input, Radio, RadioGroup } from "@heroui/react";
 import { Eye, EyeSlash, Person, At, ShieldKeyhole } from "@gravity-ui/icons";
 import { signUp } from "@/lib/auth-client";
 
 export default function SignupPage() {
+    const searchParams = useSearchParams();
+    const router = useRouter();
+    const redirectPath = searchParams.get("redirect") || "/";
+
     // Form fields
     const [name, setName] = useState("");
     const [email, setEmail] = useState("");
@@ -18,33 +21,28 @@ export default function SignupPage() {
     const [isVisible, setIsVisible] = useState(false);
     const [isLoading, setIsLoading] = useState(false);
     const [error, setError] = useState("");
-    const [success, setSuccess] = useState("");
 
     const toggleVisibility = () => setIsVisible(!isVisible);
 
     const handleSignup = async (e) => {
         e.preventDefault();
-
         setError("");
-        setSuccess("");
         setIsLoading(true);
 
         try {
-            const { data, error: authError } = await signUp.email({
+            const { error: authError } = await signUp.email({
                 email,
                 password,
                 name,
                 role,
-                callbackURL: "/",
+                callbackURL: `/auth/login?redirect=${encodeURIComponent(redirectPath)}`,
             });
 
             if (authError) {
                 setError(authError.message || "Something went wrong during signup.");
             } else {
-                setSuccess("Account created successfully! Welcome.");
-                setName("");
-                setEmail("");
-                setPassword("");
+                router.push(`/auth/login?redirect=${encodeURIComponent(redirectPath)}`);
+                router.refresh();
             }
         } catch (err) {
             setError("An unexpected network error occurred.");
@@ -56,13 +54,11 @@ export default function SignupPage() {
     return (
         <div className="flex min-h-screen items-center justify-center bg-zinc-50 dark:bg-zinc-950 px-4">
             <Card className="w-full max-w-md p-6 shadow-sm border border-zinc-200 dark:border-zinc-800">
-
+                
                 {/* Header Container */}
                 <div className="flex flex-col items-center justify-center gap-1 pb-6 border-b border-zinc-100 dark:border-zinc-800 mb-6 text-center">
                     <h1 className="text-2xl font-semibold tracking-tight text-zinc-950 dark:text-zinc-50">Create an account</h1>
-                    <p className="text-zinc-500 dark:text-zinc-400 mt-2">
-                        Join our community. It only takes a minute.
-                    </p>
+                    <p className="text-sm text-zinc-600 dark:text-zinc-400">Join our community. It only takes a minute.</p>
                 </div>
 
                 {/* Form Body */}
@@ -122,7 +118,7 @@ export default function SignupPage() {
 
                     {/* Role Selection */}
                     <div className="flex flex-col gap-4">
-                        <Label>Subscription plan</Label>
+                        <Label>Account Type</Label>
                         <RadioGroup defaultValue="tenant" name="role" onChange={value => setRole(value)} orientation="horizontal">
                             <Radio value="tenant">
                                 <Radio.Content>
@@ -143,16 +139,10 @@ export default function SignupPage() {
                         </RadioGroup>
                     </div>
 
-                    {/* Dynamic Status Badges */}
+                    {/* Error Badge */}
                     {error && (
                         <div className="p-3.5 text-xs font-medium rounded-xl bg-red-100/60 dark:bg-red-950/50 text-red-700 dark:text-red-400 border border-red-200 dark:border-red-900">
                             <span className="font-semibold">Error:</span> {error}
-                        </div>
-                    )}
-
-                    {success && (
-                        <div className="p-3.5 text-xs font-medium rounded-xl bg-emerald-100/60 dark:bg-emerald-950/50 text-emerald-800 dark:text-emerald-400 border border-emerald-200 dark:border-emerald-900">
-                            <span className="font-semibold">Success:</span> {success}
                         </div>
                     )}
 
@@ -170,7 +160,7 @@ export default function SignupPage() {
                     {/* Navigation Option */}
                     <div className="text-center pt-4 border-t border-zinc-100 dark:border-zinc-800 mt-2 text-sm text-zinc-600 dark:text-zinc-400">
                         Already have an account?{" "}
-                        <Link href="/auth/signin" className="font-medium cursor-pointer text-sm text-blue-600 dark:text-blue-400">
+                        <Link href={`/auth/login?redirect=${encodeURIComponent(redirectPath)}`} className="font-medium cursor-pointer text-sm text-blue-600 dark:text-blue-400">
                             Sign in instead
                         </Link>
                     </div>

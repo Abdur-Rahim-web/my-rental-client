@@ -5,7 +5,7 @@ import { toast } from "react-toastify";
 import { useRouter } from "next/navigation";
 import { Form, TextField, Label, Input, TextArea, Button } from "@heroui/react";
 import { createProperty } from "@/lib/actions/property";
-import { useSession } from "@/lib/auth-client"; // Better Auth হুক
+import { useSession } from "@/lib/auth-client"; 
 
 export default function AddPropertyPage() {
     const router = useRouter();
@@ -102,7 +102,7 @@ export default function AddPropertyPage() {
                     <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
                         <TextField name="rent" isRequired className="flex flex-col gap-2">
                             <Label className={labelClass}>Rent (Price)</Label>
-                            <Input type="number" className={inputClass} />
+                            <Input type="number" className={inputClass} placeholder="$"/>
                         </TextField>
                         <div className="flex flex-col gap-2">
                             <Label className={labelClass}>Rent Type</Label>
