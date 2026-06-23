@@ -2,15 +2,15 @@
 import { useEffect, useState } from 'react';
 import { useParams, useRouter } from 'next/navigation';
 import { getPropertyById } from '@/lib/api/property';
-import { addToFavorites } from '@/lib/actions/favorites'; 
-import { useSession } from '@/lib/auth-client'; 
+import { addToFavorites } from '@/lib/actions/favorites';
+import { useSession } from '@/lib/auth-client';
 import { MapPin, Bed, Bath, Expand, Tag, Heart, CheckCircle, Wifi } from 'lucide-react';
 import BookingModal from '@/components/property/BookingModal';
 
 const PropertyDetails = () => {
     const { id } = useParams();
     const router = useRouter();
-    const { data: session } = useSession(); 
+    const { data: session } = useSession();
     const [property, setProperty] = useState(null);
     const [isModalOpen, setIsModalOpen] = useState(false);
 
@@ -18,7 +18,7 @@ const PropertyDetails = () => {
         if (id) getPropertyById(id).then(setProperty);
     }, [id]);
 
-    
+
     const handleFavorite = async () => {
         if (!session?.user) {
             alert("Please login first to add favorites!");
@@ -49,7 +49,7 @@ const PropertyDetails = () => {
         <div className="max-w-6xl mx-auto p-6 my-10">
             <div className="bg-white border border-zinc-200 rounded-3xl p-8 shadow-sm grid grid-cols-1 lg:grid-cols-2 gap-10">
 
-                {/* বাম পাশ: ছবি ও ফেভারিট বাটন */}
+
                 <div className="relative">
                     <img src={property.images[0]} className="w-full h-[500px] object-cover rounded-3xl" />
                     <button
@@ -60,7 +60,7 @@ const PropertyDetails = () => {
                     </button>
                 </div>
 
-              
+
                 <div className="flex flex-col">
                     <h1 className="text-4xl font-extrabold text-zinc-900 mb-2">{property.title}</h1>
                     <div className="flex items-center text-zinc-500 mb-6"><MapPin size={18} className="mr-1" /> {property.location}</div>
