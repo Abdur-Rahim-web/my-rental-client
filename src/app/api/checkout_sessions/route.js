@@ -3,15 +3,17 @@ import { stripe } from '@/lib/Stripe';
 
 export async function POST(req) {
   try {
+    const { bookingId, amount } = await req.json();
     const origin = req.headers.get('origin');
 
     const session = await stripe.checkout.sessions.create({
+      metadata: { bookingId: bookingId }, 
       line_items: [
         {
           price_data: {
             currency: 'usd',
             product_data: { name: 'Property Booking Payment' },
-            unit_amount: 10000, 
+            unit_amount: amount * 100,
           },
           quantity: 1,
         },

@@ -85,8 +85,8 @@ const PropertyDetails = () => {
                     </div>
 
                     <div className="space-y-3 border-t pt-6 mb-8 mt-auto">
-                        <p className="flex items-center"><Tag className="mr-2 text-blue-600" size={20} /> <strong>Rent:</strong> ৳{property.rent} / {property.rentType}</p>
-                        <p className="flex items-center"><CheckCircle className="mr-2 text-green-600" size={20} /> <strong>Features:</strong> {property.extraFeatures}</p>
+                        <p className="flex items-center text-2xl text-blue-500"><Tag className="mr-2 text-blue-600" size={20} /> <strong className='text-black'>Rent:</strong> $ {property.rent} / {property.rentType}</p>
+                        <p className="flex items-center"><CheckCircle className="mr-2 text-green-600" size={20} /> <strong>Features:</strong>  {property.extraFeatures}</p>
                     </div>
 
                     <button

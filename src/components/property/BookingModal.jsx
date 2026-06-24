@@ -2,8 +2,10 @@
 import { X } from 'lucide-react';
 import { createBooking } from '@/lib/actions/bookings';
 import { toast } from 'react-toastify';
+import { useRouter } from 'next/navigation';
 
 const BookingModal = ({ isOpen, onClose, property, onConfirm }) => {
+    const router = useRouter();
     if (!isOpen) return null;
 
     const handleSubmit = async (e) => {
@@ -16,14 +18,14 @@ const BookingModal = ({ isOpen, onClose, property, onConfirm }) => {
             moveInDate: form.moveInDate.value,
             contactNumber: form.contactNumber.value,
             notes: form.notes.value,
-            
         };
 
         const result = await createBooking(bookingData);
         if (result.insertedId) {
             toast.success("Booking request submitted!");
             onClose(); 
-            onConfirm(); 
+            // বুকিং আইডি এবং রেন্ট অ্যামাউন্ট পেমেন্ট পেজে পাঠানো হচ্ছে
+            router.push(`/payment?bookingId=${result.insertedId}&amount=${property.rent}`);
         } else {
             toast.error("Booking failed.");
         }

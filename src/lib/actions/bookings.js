@@ -9,11 +9,26 @@ export const createBooking = async (bookingData) => {
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify(bookingData),
         });
-        
+
         if (!res.ok) throw new Error('Failed to create booking');
         return await res.json();
     } catch (error) {
         console.error("Error in createBooking:", error);
+        return { error: error.message };
+    }
+};
+
+
+
+export const updateBookingStatus = async (bookingId, status) => {
+    try {
+        const res = await fetch(`${baseUrl}/api/bookings/${bookingId}`, {
+            method: 'PATCH',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ status }),
+        });
+        return await res.json();
+    } catch (error) {
         return { error: error.message };
     }
 };
