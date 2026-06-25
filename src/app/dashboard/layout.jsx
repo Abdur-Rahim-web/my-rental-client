@@ -19,7 +19,7 @@ export default function DashboardLayout({ children }) {
 
   return (
     <div className="flex min-h-screen">
-      {/* Sidebar - Role pass করা হচ্ছে */}
+      
       <DashboardSidebar role={session.user.role} />
       
       {/* Main Content Area */}

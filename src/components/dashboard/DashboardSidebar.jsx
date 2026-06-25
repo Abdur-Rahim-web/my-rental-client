@@ -1,11 +1,11 @@
 
-import { CirclePlus, Calendar, Factory, Briefcase, Gear, House, Magnifier, Person, Bookmark, FileText, CreditCard } from "@gravity-ui/icons";
+import { CirclePlus, Calendar, Factory, Gear, House, Person, Bookmark, CreditCard } from "@gravity-ui/icons";
 import { Building, Users } from "lucide-react";
 import Link from "next/link";
-import { MobileSidebar } from "./MobileSidebar"; 
+import { MobileSidebar } from "./MobileSidebar";
 import { useSession } from "@/lib/auth-client";
 
-export  function DashboardSidebar() {
+export function DashboardSidebar() {
   const { data: session } = useSession();
   const user = session?.user;
 
@@ -15,22 +15,22 @@ export  function DashboardSidebar() {
     { icon: Factory, href: "/dashboard/owner/my-properties", label: "My Properties" },
     { icon: Calendar, href: "/dashboard/owner/booking-requests", label: "Booking Requests" },
     { icon: Person, href: "/dashboard/owner/profile", label: "Profile" },
-];
+  ];
 
   const tenantNavLinks = [
     { icon: House, href: "/dashboard/tenant", label: "Overview" },
     { icon: Calendar, href: "/dashboard/tenant/my-bookings", label: "My Bookings" },
     { icon: Bookmark, href: "/dashboard/tenant/favorites", label: "Favorites" },
     { icon: Person, href: "/dashboard/tenant/profile", label: "Profile" },
-];
+  ];
 
   const adminNavLinks = [
-    { icon: House, href: "/dashboard/admin", label: "Dashboard" },
-    { icon: Users, href: "/dashboard/admin/users", label: "Users" },
-    { icon: Building, href: "/dashboard/admin/companies", label: "Companies" },
-    { icon: Briefcase, href: "/dashboard/admin/jobs", label: "Jobs" },
-    { icon: CreditCard, href: "/dashboard/admin/payments", label: "Payments" },
-    { icon: Gear, href: "/dashboard/admin/settings", label: "Settings" },
+    { icon: House, href: "/dashboard/admin", label: "Overview" },
+    { icon: Person, href: "/dashboard/admin/users", label: "All Users" },
+    { icon: Factory, href: "/dashboard/admin/properties", label: "All Properties" },
+    { icon: Calendar, href: "/dashboard/admin/bookings", label: "All Bookings" },
+    { icon: CreditCard, href: "/dashboard/admin/transactions", label: "Transactions" },
+    { icon: Gear, href: "/dashboard/admin/profile", label: "Profile" },
   ];
 
   const navLinksMap = {
