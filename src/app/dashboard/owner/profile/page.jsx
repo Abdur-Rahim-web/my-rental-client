@@ -1,4 +1,3 @@
-"use client";
 
 import React from "react";
 import UserInfoCard from "@/components/dashboard/UserInfoCard";

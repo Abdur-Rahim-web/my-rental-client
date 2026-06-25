@@ -1,7 +1,8 @@
 "use client";
 
 import React from "react";
-import { useSession } from "@/lib/auth-client"; 
+import { useSession } from "@/lib/auth-client";
+import { Mail, ShieldCheck, User, Loader2 } from "lucide-react"; 
 
 export default function UserInfoCard() {
     const { data: session, isPending } = useSession();
@@ -10,40 +11,54 @@ export default function UserInfoCard() {
     if (isPending) {
         return (
             <div className="flex justify-center p-8">
-                <div className="animate-pulse bg-zinc-100 h-40 w-80 rounded-2xl"></div>
+                <Loader2 className="animate-spin text-blue-600 w-8 h-8" />
             </div>
         );
     }
 
-    if (!user) {
-        return (
-            <div className="p-6 bg-white rounded-2xl shadow-sm border border-zinc-200 text-center text-zinc-500">
-                No user logged in.
-            </div>
-        );
-    }
+    if (!user) return null;
 
     return (
-        <div className="max-w-sm w-full p-6 bg-white rounded-3xl shadow-xl shadow-zinc-100 border border-zinc-100">
-            
-            <div className="flex flex-col items-center text-center gap-4">
-                
-                <div className="w-20 h-20 rounded-full bg-blue-50 flex items-center justify-center text-blue-600 font-bold text-2xl uppercase border-4 border-blue-50">
-                    {user.name?.charAt(0) || "U"}
+        <div className="max-w-sm w-full bg-white rounded-3xl overflow-hidden shadow-lg border border-zinc-100 transition-all hover:shadow-xl">
+            {/* Top Background Pattern */}
+            <div className="h-24 bg-gradient-to-r from-blue-600 to-indigo-700"></div>
+
+            <div className="px-6 pb-6">
+                {/* Avatar */}
+                <div className="relative -mt-12 mb-4">
+                    <div className="w-24 h-24 rounded-full border-4 border-white bg-zinc-100 flex items-center justify-center text-blue-600 font-bold text-3xl shadow-md uppercase">
+                        {user.name?.charAt(0) || "U"}
+                    </div>
                 </div>
 
-                <div>
-                    <h3 className="text-xl font-bold text-zinc-900">{user.name}</h3>
-                    <p className="text-sm text-zinc-500">{user.email}</p>
+                {/* Name & Title */}
+                <div className="mb-6">
+                    <h3 className="text-2xl font-extrabold text-zinc-900">{user.name}</h3>
+                    <p className="text-zinc-500 font-medium">User Profile</p>
                 </div>
-            </div>
 
-            
-            <div className="mt-6 pt-4 border-t border-zinc-100">
-                <p className="text-[10px] tracking-widest text-zinc-400 uppercase font-bold mb-1">User Role</p>
-                <p className="text-xs text-zinc-600 bg-zinc-50 p-2 rounded-lg break-all font-mono">
-                    {user.role}
-                </p>
+                {/* Information Grid */}
+                <div className="space-y-4">
+                    {/* Email */}
+                    <div className="flex items-center gap-3 p-3 rounded-xl bg-zinc-50 border border-zinc-100">
+                        <Mail className="text-blue-500 w-5 h-5" />
+                        <div>
+                            <p className="text-[10px] uppercase tracking-wider text-zinc-400 font-bold">Email</p>
+                            <p className="text-sm font-semibold text-zinc-700">{user.email}</p>
+                        </div>
+                    </div>
+
+                    {/* Role */}
+                    <div className="flex items-center gap-3 p-3 rounded-xl bg-zinc-50 border border-zinc-100">
+                        <ShieldCheck className="text-emerald-500 w-5 h-5" />
+                        <div>
+                            <p className="text-[10px] uppercase tracking-wider text-zinc-400 font-bold">Role</p>
+                            <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-emerald-100 text-emerald-800">
+                                {user.role || "User"}
+                            </span>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
     );

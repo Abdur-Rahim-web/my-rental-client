@@ -48,7 +48,7 @@ export default function FavoritesPage() {
                                     <Table.Cell>${item.rent}</Table.Cell>
                                     <Table.Cell>
                                         <div className="flex gap-2">
-                                            {/* ১. Remove Button (প্রথমে) */}
+                                            {/*  Remove Button */}
                                             <Button
                                                 variant="ghost"
                                                 color="danger"
@@ -58,7 +58,7 @@ export default function FavoritesPage() {
                                                 <TrashBin size={16} /> Remove
                                             </Button>
 
-                                            {/* ২. View Button (পরে) - hover effect সহ */}
+                                            {/* View Button */}
                                             <Link href={`/properties/${item.propertyId}`} className="group">
                                                 <Button
                                                     variant="ghost"
