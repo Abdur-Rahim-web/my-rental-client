@@ -32,3 +32,22 @@ export const updateBookingStatus = async (bookingId, status) => {
         return { error: error.message };
     }
 };
+
+
+export const getBookingsByEmail = async (email) => {
+
+    const timestamp = new Date().getTime();
+    const res = await fetch(`${baseUrl}/api/bookings/${email}?t=${timestamp}`, {
+        cache: 'no-store',
+        headers: {
+            'Cache-Control': 'no-cache, no-store, must-revalidate',
+            'Pragma': 'no-cache',
+            'Expires': '0',
+        }
+    });
+
+    if (!res.ok) return [];
+    return res.json();
+};
+
+

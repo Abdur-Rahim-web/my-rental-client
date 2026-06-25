@@ -1,5 +1,6 @@
 import { stripe } from '@/lib/Stripe';
 import { updateBookingStatus } from '@/lib/actions/bookings';
+import Link from 'next/link';
 
 export default async function Success({ searchParams }) {
   const { session_id } = await searchParams;
@@ -19,8 +20,11 @@ export default async function Success({ searchParams }) {
     return (
       <div className="text-center py-20">
         <h1 className="text-4xl font-bold text-green-600">Payment Successful!</h1>
-        <p className="mt-4">Your booking has been approved. Confirmation email sent.</p>
+        <div className="text-center py-10"><Link href="/dashboard/tenant/my-bookings" className="bg-blue-600 text-white px-8 py-3 rounded-xl font-bold hover:bg-blue-700 transition">
+            Go to My Bookings
+        </Link></div>
       </div>
+      
     );
   }
 

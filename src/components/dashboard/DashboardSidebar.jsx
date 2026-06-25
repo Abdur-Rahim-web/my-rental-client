@@ -1,5 +1,5 @@
 
-import { CirclePlus, Calendar, Factory, Gear, House, Person, Bookmark, CreditCard } from "@gravity-ui/icons";
+import { CirclePlus, Calendar, Factory, Gear, House, Person, Persons, Bookmark, CreditCard } from "@gravity-ui/icons";
 import { Building, Users } from "lucide-react";
 import Link from "next/link";
 import { MobileSidebar } from "./MobileSidebar";
@@ -26,11 +26,11 @@ export function DashboardSidebar() {
 
   const adminNavLinks = [
     { icon: House, href: "/dashboard/admin", label: "Overview" },
-    { icon: Person, href: "/dashboard/admin/users", label: "All Users" },
+    { icon: Persons, href: "/dashboard/admin/users", label: "All Users" },
     { icon: Factory, href: "/dashboard/admin/properties", label: "All Properties" },
     { icon: Calendar, href: "/dashboard/admin/bookings", label: "All Bookings" },
     { icon: CreditCard, href: "/dashboard/admin/transactions", label: "Transactions" },
-    { icon: Gear, href: "/dashboard/admin/profile", label: "Profile" },
+    { icon: Person, href: "/dashboard/admin/profile", label: "Profile" },
   ];
 
   const navLinksMap = {

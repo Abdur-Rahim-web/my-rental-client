@@ -1,49 +1,91 @@
-// "use client";
+"use client";
+import { useEffect, useState, useCallback } from "react";
+import { useSession } from "@/lib/auth-client";
+import { getBookingsByEmail } from "@/lib/actions/bookings";
+import { Table } from "@heroui/react";
 
-// import React from "react";
-// import { Table, TableHeader, TableColumn, TableBody, TableRow, TableCell, Chip } from "@heroui/react";
+export default function MyBookingsPage() {
+    const { data: session } = useSession();
+    const [bookings, setBookings] = useState([]);
+    const [loading, setLoading] = useState(true);
 
-// export default function MyBookingsPage() {
-//     const bookings = [
-//         { id: 1, name: "Luxury Sky Villa", date: "2026-06-15", amount: 1500, bStatus: "Confirmed", pStatus: "Paid" },
-//         { id: 2, name: "Modern Cozy Studio", date: "2026-06-10", amount: 600, bStatus: "Pending", pStatus: "Unpaid" },
-//     ];
 
-//     return (
-//         <div className="flex flex-col gap-6">
-//             <div>
-//                 <h1 className="text-2xl font-bold text-foreground">My Bookings</h1>
-//                 <p className="text-sm text-default-400 mt-1">Manage and track your active rental bookings.</p>
-//             </div>
+    const email = session?.user?.email;
 
-//             <Table aria-label="Tenant Bookings Table" shadow="none" className="border border-default-200 rounded-xl">
-//                 <TableHeader>
-//                     <TableColumn>Property Name</TableColumn>
-//                     <TableColumn>Booking Date</TableColumn>
-//                     <TableColumn>Amount Paid</TableColumn>
-//                     <TableColumn>Booking Status</TableColumn>
-//                     <TableColumn>Payment Status</TableColumn>
-//                 </TableHeader>
-//                 <TableBody>
-//                     {bookings.map((booking) => (
-//                         <TableRow key={booking.id}>
-//                             <TableCell className="font-semibold">{booking.name}</TableCell>
-//                             <TableCell>{booking.date}</TableCell>
-//                             <TableCell>${booking.amount}</TableCell>
-//                             <TableCell>
-//                                 <Chip color={booking.bStatus === "Confirmed" ? "success" : "warning"} variant="flat" size="sm">
-//                                     {booking.bStatus}
-//                                 </Chip>
-//                             </TableCell>
-//                             <TableCell>
-//                                 <Chip color={booking.pStatus === "Paid" ? "success" : "danger"} variant="flat" size="sm">
-//                                     {booking.pStatus}
-//                                 </Chip>
-//                             </TableCell>
-//                         </TableRow>
-//                     ))}
-//                 </TableBody>
-//             </Table>
-//         </div>
-//     );
-// }
+
+    const fetchBookings = useCallback(async () => {
+        if (!email) return;
+
+        setLoading(true);
+        try {
+            const data = await getBookingsByEmail(email);
+            setBookings(data || []);
+        } catch (error) {
+            console.error("Error fetching:", error);
+        } finally {
+            setLoading(false);
+        }
+    }, [email]);
+
+
+    useEffect(() => {
+        let isMounted = true;
+
+        const performFetch = async () => {
+            if (isMounted) {
+                await fetchBookings();
+            }
+        };
+
+        performFetch();
+
+        return () => {
+            isMounted = false;
+        };
+    }, [fetchBookings]);
+
+    return (
+        <div className="p-6">
+            <div className="flex justify-between items-center mb-6">
+                <h1 className="text-2xl font-bold">My Bookings</h1>
+                <button
+                    onClick={fetchBookings}
+                    className="bg-blue-600 text-white px-4 py-2 rounded-lg text-sm hover:bg-blue-700 transition"
+                >
+                    Refresh List
+                </button>
+            </div>
+
+            {loading ? (
+                <p>Loading your bookings...</p>
+            ) : bookings.length === 0 ? (
+                <p>No bookings found.</p>
+            ) : (
+                <Table>
+                    <Table.ScrollContainer>
+                        <Table.Content aria-label="My Bookings" className="min-w-[800px]">
+                            <Table.Header>
+                                <Table.Column isRowHeader>Property Name</Table.Column>
+                                <Table.Column>Booking Date</Table.Column>
+                                <Table.Column>Amount Paid</Table.Column>
+                                <Table.Column>Booking Status</Table.Column>
+                                <Table.Column>Payment Status</Table.Column>
+                            </Table.Header>
+                            <Table.Body>
+                                {bookings.map((item) => (
+                                    <Table.Row key={item._id}>
+                                        <Table.Cell>{item.propertyTitle}</Table.Cell>
+                                        <Table.Cell>{new Date(item.moveInDate).toLocaleDateString()}</Table.Cell>
+                                        <Table.Cell>${item.amountPaid || "0"}</Table.Cell>
+                                        <Table.Cell>{item.status}</Table.Cell>
+                                        <Table.Cell>{item.paymentStatus || "Paid"}</Table.Cell>
+                                    </Table.Row>
+                                ))}
+                            </Table.Body>
+                        </Table.Content>
+                    </Table.ScrollContainer>
+                </Table>
+            )}
+        </div>
+    );
+}
