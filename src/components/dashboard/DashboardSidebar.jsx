@@ -26,9 +26,9 @@ export function DashboardSidebar() {
 
   const adminNavLinks = [
     { icon: House, href: "/dashboard/admin", label: "Overview" },
-    { icon: Persons, href: "/dashboard/admin/users", label: "All Users" },
-    { icon: Factory, href: "/dashboard/admin/properties", label: "All Properties" },
-    { icon: Calendar, href: "/dashboard/admin/bookings", label: "All Bookings" },
+    { icon: Persons, href: "/dashboard/admin/all-users", label: "All Users" },
+    { icon: Factory, href: "/dashboard/admin/all-properties", label: "All Properties" },
+    { icon: Calendar, href: "/dashboard/admin/all-bookings", label: "All Bookings" },
     { icon: CreditCard, href: "/dashboard/admin/transactions", label: "Transactions" },
     { icon: Person, href: "/dashboard/admin/profile", label: "Profile" },
   ];
