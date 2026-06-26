@@ -56,3 +56,43 @@ export const getPropertyById = async (id) => {
         return null;
     }
 };
+
+
+
+export const getOwnerBookingRequests = async (email) => {
+    try {
+        const res = await fetch(`${baseUrl}/api/owner/bookings-requests/${email}`, { cache: 'no-store' });
+        if (!res.ok) throw new Error('Failed to fetch bookings');
+        return await res.json();
+    } catch (error) {
+        console.error("Error:", error);
+        return [];
+    }
+};
+
+
+export const updateBookingStatus = async (id, status) => {
+    try {
+        const res = await fetch(`${baseUrl}/api/bookings/${id}`, {
+            method: 'PATCH',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ status })
+        });
+        return await res.json();
+    } catch (error) {
+        console.error("Error:", error);
+        return { error: error.message };
+    }
+};
+
+
+export const getOwnerDashboardStats = async (email) => {
+    try {
+        const res = await fetch(`${baseUrl}/api/owner/overview/${email}`, { cache: 'no-store' });
+        if (!res.ok) throw new Error('Failed to fetch stats');
+        return await res.json();
+    } catch (error) {
+        console.error("Error:", error);
+        return null;
+    }
+};

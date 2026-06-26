@@ -1,75 +1,87 @@
 'use client';
-import React from 'react';
+
+import React, { useEffect, useState } from 'react';
 import { useSession } from "@/lib/auth-client";
+import { getOwnerDashboardStats } from "@/lib/api/property";
+import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, Area, AreaChart } from 'recharts';
 import { Briefcase, FileDollar, Calendar, Person } from '@gravity-ui/icons';
-import { DashboardStats } from '@/components/dashboard/DashboardStats';
-import { EarningsChart } from '@/components/dashboard/EarningsChart';
 
-const OwnerDashboardHomePage = () => {
-    const { data: session, isPending } = useSession();
+const OwnerOverviewPage = () => {
+    const { data: session } = useSession();
+    const [stats, setStats] = useState(null);
+    const [loading, setLoading] = useState(true);
 
-    if (isPending) {
-        return (
-            <div className="flex h-screen items-center justify-center">
-                <p className="text-zinc-500 animate-pulse">Loading Owner Dashboard...</p>
-            </div>
-        );
-    }
+    useEffect(() => {
+        if (session?.user?.email) {
+            // eslint-disable-next-line react-hooks/immutability
+            loadDashboardData();
+        }
+    }, [session]);
 
-    const user = session?.user;
+    const loadDashboardData = async () => {
+        const data = await getOwnerDashboardStats(session.user.email);
+        setStats(data);
+        setLoading(false);
+    };
 
-    // Assignment Requirements: Owner-specific statistics
-    const ownerStats = [
-        { title: "Total Earnings", value: "$12,450", icon: FileDollar },
-        { title: "Total Properties", value: "12", icon: Briefcase },
-        { title: "Total Bookings", value: "85", icon: Calendar },
-    ];
-
-    const monthlyData = [
-        { month: 'Jan', earnings: 1200 },
-        { month: 'Feb', earnings: 1900 },
-        { month: 'Mar', earnings: 3000 },
-        { month: 'Apr', earnings: 2400 },
-        { month: 'May', earnings: 2800 },
-        { month: 'Jun', earnings: 3500 },
-        { month: 'Jul', earnings: 3100 },
-        { month: 'Aug', earnings: 4200 },
-        { month: 'Sep', earnings: 3800 },
-        { month: 'Oct', earnings: 4500 },
-        { month: 'Nov', earnings: 4800 },
-        { month: 'Dec', earnings: 5200 },
-    ];
+    if (loading) return <div className="p-10 text-center">Loading Dashboard...</div>;
 
     return (
-        <div className="p-8 bg-zinc-50 dark:bg-zinc-950 min-h-screen">
-            {/* Header Section */}
-            <header className="mb-10 flex items-center justify-between">
-                <div>
-                    <h1 className="text-4xl font-bold tracking-tight text-zinc-950 dark:text-zinc-50">
-                        Welcome back, {user?.name || "Owner"}
-                    </h1>
-                    <p className="text-zinc-500 mt-2 flex items-center gap-2">
-                        <Person size={16} /> Owner Dashboard
-                    </p>
-                </div>
+        <div className="p-8 bg-zinc-50 min-h-screen">
+            {/* Header */}
+            <header className="mb-10">
+                <h1 className="text-3xl font-bold text-zinc-900">Welcome back, {session?.user?.name}</h1>
+                <p className="text-zinc-500">Overview of your property business</p>
             </header>
 
-            {/* Dashboard Content */}
-            <section className="space-y-8">
-                <DashboardStats statsData={ownerStats} />
-
-                {/* Placeholder for future Charts or Tables */}
-                <div className="bg-white dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 rounded-2xl p-6">
-                    <h3 className="text-lg font-semibold text-zinc-900 dark:text-zinc-100 mb-4">
-                        Analytics Overview
-                    </h3>
-                    <section>
-                        <EarningsChart data={monthlyData} />
-                    </section>
+            {/* Summary Cards */}
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-10">
+                <div className="bg-white p-6 rounded-2xl shadow-sm border border-zinc-100 flex items-center gap-4">
+                    <div className="p-4 bg-blue-50 text-blue-600 rounded-xl"><FileDollar size={24} /></div>
+                    <div>
+                        <p className="text-sm text-zinc-500">Total Earnings</p>
+                        <h3 className="text-2xl font-bold">${stats?.totalEarnings?.toLocaleString()}</h3>
+                    </div>
                 </div>
-            </section>
+                <div className="bg-white p-6 rounded-2xl shadow-sm border border-zinc-100 flex items-center gap-4">
+                    <div className="p-4 bg-green-50 text-green-600 rounded-xl"><Briefcase size={24} /></div>
+                    <div>
+                        <p className="text-sm text-zinc-500">Total Properties</p>
+                        <h3 className="text-2xl font-bold">{stats?.totalProperties}</h3>
+                    </div>
+                </div>
+                <div className="bg-white p-6 rounded-2xl shadow-sm border border-zinc-100 flex items-center gap-4">
+                    <div className="p-4 bg-purple-50 text-purple-600 rounded-xl"><Calendar size={24} /></div>
+                    <div>
+                        <p className="text-sm text-zinc-500">Total Bookings</p>
+                        <h3 className="text-2xl font-bold">{stats?.totalBookings}</h3>
+                    </div>
+                </div>
+            </div>
+
+            {/* Monthly Earnings Chart */}
+            <div className="bg-white p-8 rounded-2xl shadow-sm border border-zinc-100">
+                <h3 className="text-xl font-semibold mb-8 text-zinc-800">Monthly Earnings (Last 12 Months)</h3>
+                <div className="w-full h-[400px]">
+                    <ResponsiveContainer width="100%" height="100%">
+                        <AreaChart data={stats?.monthlyData}>
+                            <defs>
+                                <linearGradient id="colorEarnings" x1="0" y1="0" x2="0" y2="1">
+                                    <stop offset="5%" stopColor="#3b82f6" stopOpacity={0.2}/>
+                                    <stop offset="95%" stopColor="#3b82f6" stopOpacity={0}/>
+                                </linearGradient>
+                            </defs>
+                            <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="#e4e4e7" />
+                            <XAxis dataKey="month" axisLine={false} tickLine={false} />
+                            <YAxis axisLine={false} tickLine={false} />
+                            <Tooltip contentStyle={{ borderRadius: '8px' }} />
+                            <Area type="monotone" dataKey="earnings" stroke="#3b82f6" strokeWidth={3} fillOpacity={1} fill="url(#colorEarnings)" />
+                        </AreaChart>
+                    </ResponsiveContainer>
+                </div>
+            </div>
         </div>
     );
 };
 
-export default OwnerDashboardHomePage;
+export default OwnerOverviewPage;

@@ -83,7 +83,7 @@ export default function AddPropertyPage() {
                         <TextField name="rentType" className="flex flex-col gap-2">
                             <Label className={labelClass}>Property Type</Label>
                             <select
-                                name="rentType"
+                                name="propertyType"
                                 className={`${inputClass} bg-white`}
                             >
                                 <option value="Apartment">Apartment</option>
