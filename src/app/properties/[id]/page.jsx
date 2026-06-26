@@ -172,6 +172,7 @@ const PropertyDetails = () => {
                 onClose={() => setIsModalOpen(false)}
                 property={property}
                 userEmail={session?.user?.email}
+                userName={session?.user?.name}
                 onConfirm={() => router.push('/payment')}
             />
         </div>

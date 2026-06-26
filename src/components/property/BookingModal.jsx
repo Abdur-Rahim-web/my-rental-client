@@ -4,14 +4,14 @@ import { createBooking } from '@/lib/actions/bookings';
 import { toast } from 'react-toastify';
 import { useRouter } from 'next/navigation';
 
-const BookingModal = ({ isOpen, onClose, property, userEmail }) => {
+const BookingModal = ({ isOpen, onClose, property, userEmail, userName }) => {
     const router = useRouter();
     if (!isOpen) return null;
 
     const handleSubmit = async (e) => {
         e.preventDefault();
         const form = e.target;
-        
+
         const bookingData = {
             propertyId: property._id,
             propertyTitle: property.title,
@@ -19,15 +19,19 @@ const BookingModal = ({ isOpen, onClose, property, userEmail }) => {
             moveInDate: form.moveInDate.value,
             contactNumber: form.contactNumber.value,
             notes: form.notes.value,
+            userName: userName,
             userEmail: userEmail,
-
+            ownerName: property.ownerName,
+            ownerEmail: property.ownerEmail,
+            status: "Pending",
+            createdAt: new Date()
         };
 
         const result = await createBooking(bookingData);
         if (result.insertedId) {
             toast.success("Booking request submitted!");
-            onClose(); 
-           
+            onClose();
+
             router.push(`/payment?bookingId=${result.insertedId}&amount=${property.rent}`);
         } else {
             toast.error("Booking failed.");
