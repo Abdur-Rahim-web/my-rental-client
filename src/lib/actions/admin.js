@@ -14,3 +14,14 @@ export const updateUserRole = async (id, role) => {
     });
     return res.json();
 };
+
+
+export const getAllBookings = async () => {
+    try {
+        const res = await fetch(`${baseUrl}/api/admin/bookings`, { cache: 'no-store' });
+        return await res.json();
+    } catch (error) {
+        console.error("Error in getAllBookings:", error);
+        return [];
+    }
+};
