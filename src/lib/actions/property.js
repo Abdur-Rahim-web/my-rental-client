@@ -64,5 +64,31 @@ export const deleteProperty = async (id) => {
 };
 
 
+export const getAllProperties = async () => {
+    try {
+        const res = await fetch(`${baseUrl}/api/properties`, { cache: 'no-store' });
+        if (!res.ok) throw new Error('Failed to fetch properties');
+        return await res.json();
+    } catch (error) {
+        console.error("Error in getAllProperties:", error);
+        return [];
+    }
+};
+
+
+export const updatePropertyStatus = async (id, status, feedback = "") => {
+    try {
+        const res = await fetch(`${baseUrl}/api/properties/${id}`, {
+            method: 'PATCH',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ status, rejectionFeedback: feedback })
+        });
+        if (!res.ok) throw new Error('Failed to update status');
+        return await res.json();
+    } catch (error) {
+        console.error("Error in updatePropertyStatus:", error);
+        return { error: error.message };
+    }
+};
 
 
