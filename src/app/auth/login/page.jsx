@@ -4,7 +4,8 @@ import { useState } from "react";
 import { useSearchParams, useRouter } from "next/navigation";
 import { Card, Button, Link, TextField, Label, InputGroup, Input } from "@heroui/react";
 import { Eye, EyeSlash, At, ShieldKeyhole } from "@gravity-ui/icons";
-import { signIn } from "@/lib/auth-client";
+import { authClient, signIn } from "@/lib/auth-client";
+import { FcGoogle } from "react-icons/fc";
 
 export default function SigninPage() {
     const searchParams = useSearchParams();
@@ -77,10 +78,32 @@ export default function SigninPage() {
                         Sign In
                     </Button>
 
+                    <div className="flex items-center gap-3 my-2">
+                        <hr className="flex-1 border-zinc-100 dark:border-zinc-800" />
+                        <span className="text-xs text-zinc-400">OR</span>
+                        <hr className="flex-1 border-zinc-100 dark:border-zinc-800" />
+                    </div>
+
+                    {/* Google Social Login Button */}
+                    <Button
+                        className="w-full font-semibold rounded-xl bg-white border border-zinc-200 dark:border-zinc-700 text-zinc-900 dark:text-zinc-50 hover:bg-zinc-50 dark:hover:bg-zinc-800 transition"
+                        onPress={async () => {
+                            await authClient.signIn.social({
+                                provider: "google",
+                                callbackURL: redirectPath,
+                                additionalData: {
+                                    role: "tenant"
+                                }
+                            });
+                        }}
+                    >
+                       <FcGoogle /> Continue with Google
+                    </Button>
+
                     {/* Navigation Option */}
                     <div className="text-center pt-4 border-t border-zinc-100 dark:border-zinc-800 mt-2 text-sm text-zinc-600 dark:text-zinc-400">
                         Don&apos;t have an account?{" "}
-                        
+
                         <Link href={`/auth/register?redirect=${encodeURIComponent(redirectPath)}`} className="font-medium cursor-pointer text-sm text-blue-600 dark:text-blue-400">
                             Register instead
                         </Link>

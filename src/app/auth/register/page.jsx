@@ -4,7 +4,8 @@ import { useState } from "react";
 import { useSearchParams, useRouter } from "next/navigation";
 import { Card, Button, Link, TextField, Label, InputGroup, Input, Radio, RadioGroup } from "@heroui/react";
 import { Eye, EyeSlash, Person, At, ShieldKeyhole } from "@gravity-ui/icons";
-import { signUp } from "@/lib/auth-client";
+import { signUp, authClient } from "@/lib/auth-client";
+import { FcGoogle } from "react-icons/fc";
 
 export default function SignupPage() {
     const searchParams = useSearchParams();
@@ -14,6 +15,7 @@ export default function SignupPage() {
     // Form fields
     const [name, setName] = useState("");
     const [email, setEmail] = useState("");
+    const [image, setImage] = useState("");
     const [password, setPassword] = useState("");
     const [role, setRole] = useState("tenant");
 
@@ -34,6 +36,7 @@ export default function SignupPage() {
                 email,
                 password,
                 name,
+                image,
                 role,
                 callbackURL: `/auth/login?redirect=${encodeURIComponent(redirectPath)}`,
             });
@@ -51,10 +54,11 @@ export default function SignupPage() {
         }
     };
 
+
     return (
         <div className="flex min-h-screen items-center justify-center bg-zinc-50 dark:bg-zinc-950 px-4">
             <Card className="w-full max-w-md p-6 shadow-sm border border-zinc-200 dark:border-zinc-800">
-                
+
                 {/* Header Container */}
                 <div className="flex flex-col items-center justify-center gap-1 pb-6 border-b border-zinc-100 dark:border-zinc-800 mb-6 text-center">
                     <h1 className="text-2xl font-semibold tracking-tight text-zinc-950 dark:text-zinc-50">Create an account</h1>
@@ -88,6 +92,21 @@ export default function SignupPage() {
                                 placeholder="you@example.com"
                                 value={email}
                                 onChange={(e) => setEmail(e.target.value)}
+                                className="w-full bg-transparent py-2 text-sm outline-none border-none text-zinc-900 dark:text-zinc-100"
+                            />
+                        </InputGroup>
+                    </TextField>
+
+                    {/* Image URL Field */}
+                    <TextField name="image" className="flex flex-col gap-1.5">
+                        <Label className="text-sm font-medium text-zinc-700 dark:text-zinc-300">Profile Photo URL</Label>
+                        <InputGroup className="flex items-center gap-2 border border-zinc-200 dark:border-zinc-800 rounded-xl px-3 bg-zinc-50 dark:bg-zinc-900 focus-within:border-primary transition-colors">
+                            <Person className="text-zinc-400 pointer-events-none" size={16} />
+                            <Input
+                                type="url"
+                                placeholder="https://example.com/avatar.jpg"
+                                value={image}
+                                onChange={(e) => setImage(e.target.value)}
                                 className="w-full bg-transparent py-2 text-sm outline-none border-none text-zinc-900 dark:text-zinc-100"
                             />
                         </InputGroup>
@@ -155,6 +174,28 @@ export default function SignupPage() {
                         isDisabled={isLoading}
                     >
                         Sign Up
+                    </Button>
+
+                    <div className="flex items-center gap-3 my-2">
+                        <hr className="flex-1 border-zinc-100 dark:border-zinc-800" />
+                        <span className="text-xs text-zinc-400">OR</span>
+                        <hr className="flex-1 border-zinc-100 dark:border-zinc-800" />
+                    </div>
+
+                    {/* Google Social Login Button */}
+                    <Button
+                        className="w-full font-semibold rounded-xl bg-white border border-zinc-200 dark:border-zinc-700 text-zinc-900 dark:text-zinc-50 hover:bg-zinc-50 dark:hover:bg-zinc-800 transition"
+                        onPress={async () => {
+                            await authClient.signIn.social({
+                                provider: "google",
+                                callbackURL: redirectPath,
+                                additionalData: {
+                                    role: "tenant" 
+                                }
+                            });
+                        }}
+                    >
+                       <FcGoogle /> Continue with Google
                     </Button>
 
                     {/* Navigation Option */}
