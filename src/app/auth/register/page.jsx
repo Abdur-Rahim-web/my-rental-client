@@ -57,7 +57,7 @@ export default function SignupPage() {
 
     return (
         <div className="flex min-h-screen items-center justify-center bg-zinc-50 dark:bg-zinc-950 px-4">
-            <Card className="w-full max-w-md p-6 shadow-sm border border-zinc-200 dark:border-zinc-800">
+            <Card className="w-full max-w-md p-6 m-10 shadow-sm border border-zinc-200 dark:border-zinc-800">
 
                 {/* Header Container */}
                 <div className="flex flex-col items-center justify-center gap-1 pb-6 border-b border-zinc-100 dark:border-zinc-800 mb-6 text-center">
