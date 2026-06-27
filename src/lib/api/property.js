@@ -58,6 +58,26 @@ export const getPropertyById = async (id) => {
 };
 
 
+// Search Properties
+export const getAllPropertiesBySearch = async (filters = {}) => {
+    try {
+        const queryParams = new URLSearchParams();
+        if (filters.location) queryParams.append('location', filters.location);
+        if (filters.propertyType) queryParams.append('type', filters.propertyType);
+        if (filters.sort) queryParams.append('sort', filters.sort);
+
+        const url = `${baseUrl}/api/properties?${queryParams.toString()}`;
+        console.log("Fetching from URL:", url); 
+
+        const res = await fetch(url, { cache: 'no-store' });
+        if (!res.ok) throw new Error('Failed to fetch');
+        return await res.json();
+    } catch (error) {
+        console.error("API Error:", error);
+        return [];
+    }
+};
+
 
 export const getOwnerBookingRequests = async (email) => {
     try {
