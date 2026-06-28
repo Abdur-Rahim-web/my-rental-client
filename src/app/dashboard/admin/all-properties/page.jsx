@@ -15,14 +15,14 @@ export default function AllPropertiesPage() {
         setProperties(data);
     };
 
-    
+
     const handleConfirmDelete = async () => {
         await deleteProperty(deleteModal.id);
         setDeleteModal({ isOpen: false, id: null });
         loadProperties();
     };
 
-    
+
     const handleConfirmReject = async () => {
         await updatePropertyStatus(rejectModal.id, 'Rejected', rejectModal.feedback);
         setRejectModal({ isOpen: false, id: null, feedback: "" });
@@ -30,46 +30,75 @@ export default function AllPropertiesPage() {
     };
 
     return (
-        <div className="p-8 bg-zinc-50 min-h-screen">
-            <h1 className="text-2xl font-bold mb-6">Manage All Properties</h1>
+        <div className=" bg-zinc-50 min-h-screen">
+            
+            <div className=" md:p-8 bg-zinc-50 min-h-screen">
+                <h1 className=" p-2 text-2xl font-bold mb-6">Manage All Properties</h1>
 
-            <div className="bg-white rounded-2xl shadow-sm border border-zinc-100 overflow-x-auto">
-                <table className="w-full text-left whitespace-nowrap">
-                    <thead className="bg-zinc-50 border-b">
-                        <tr>
-                            <th className="p-4 text-sm font-semibold text-zinc-600">Title</th>
-                            <th className="p-4 text-sm font-semibold text-zinc-600">Location</th>
-                            <th className="p-4 text-sm font-semibold text-zinc-600">Rent</th>
-                            <th className="p-4 text-sm font-semibold text-zinc-600">Owner Name</th>
-                            <th className="p-4 text-sm font-semibold text-zinc-600">Owner Email</th>
-                            <th className="p-4 text-sm font-semibold text-zinc-600">Status</th>
-                            <th className="p-4 text-sm font-semibold text-zinc-600">Actions</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {properties.map(prop => (
-                            <tr key={prop._id} className="border-t hover:bg-zinc-50">
-                                <td className="p-4 font-medium">{prop.title}</td>
-                                <td className="p-4 text-zinc-600">{prop.location}</td>
-                                <td className="p-4 text-zinc-600">${prop.rent}</td>
-                                <td className="p-4 text-zinc-600">{prop.ownerName || "N/A"}</td>
-                                <td className="p-4 text-zinc-600">{prop.ownerEmail}</td>
-                                <td className="p-4">
-                                    <span className={`px-2 py-1 rounded-full text-xs font-bold 
-                                        ${prop.status === 'Approved' ? 'bg-green-100 text-green-700' :
-                                            prop.status === 'Rejected' ? 'bg-red-100 text-red-700' : 'bg-yellow-100 text-yellow-700'}`}>
-                                        {prop.status || 'Pending'}
-                                    </span>
-                                </td>
-                                <td className="p-4 space-x-2">
-                                    <button onClick={() => updatePropertyStatus(prop._id, 'Approved').then(loadProperties)} className="bg-green-600 text-white px-2 py-1 rounded-lg text-xs">Approve</button>
-                                    <button onClick={() => setRejectModal({ isOpen: true, id: prop._id, feedback: "" })} className="bg-red-600 text-white px-2 py-1 rounded-lg text-xs">Reject</button>
-                                    <button onClick={() => setDeleteModal({ isOpen: true, id: prop._id })} className="bg-zinc-800 text-white px-2 py-1 rounded-lg text-xs">Delete</button>
-                                </td>
+                <div className="bg-white rounded-2xl shadow-sm border border-zinc-100 overflow-hidden">
+                    <table className="w-full text-left border-collapse">
+                        {/* header */}
+                        <thead className="hidden md:table-header-group bg-zinc-50 border-b">
+                            <tr>
+                                <th className="p-4 text-sm font-semibold text-zinc-600">Title</th>
+                                <th className="p-4 text-sm font-semibold text-zinc-600">Location</th>
+                                <th className="p-4 text-sm font-semibold text-zinc-600">Rent</th>
+                                <th className="p-4 text-sm font-semibold text-zinc-600">Owner</th>
+                                <th className="p-4 text-sm font-semibold text-zinc-600">Status</th>
+                                <th className="p-4 text-sm font-semibold text-zinc-600">Actions</th>
                             </tr>
-                        ))}
-                    </tbody>
-                </table>
+                        </thead>
+
+                        <tbody className="divide-y divide-zinc-300">
+                            {properties.map(prop => (
+                                <tr key={prop._id} className="block md:table-row p-4 border-b last:border-b-0 hover:bg-zinc-50/50">
+
+                                    {/* Title & Location */}
+                                    <td className="flex justify-between md:table-cell p-2 md:p-4">
+                                        <span className="md:hidden font-bold text-zinc-400 text-xs uppercase">Title</span>
+                                        <span className="font-medium text-zinc-800">{prop.title}</span>
+                                    </td>
+
+                                    <td className="flex justify-between md:table-cell p-2 md:p-4">
+                                        <span className="md:hidden font-bold text-zinc-400 text-xs uppercase">Location</span>
+                                        <span className="text-zinc-600 text-sm">{prop.location}</span>
+                                    </td>
+
+                                    <td className="flex justify-between md:table-cell p-2 md:p-4">
+                                        <span className="md:hidden font-bold text-zinc-400 text-xs uppercase">Rent</span>
+                                        <span className="text-zinc-600 text-sm font-semibold">${prop.rent}</span>
+                                    </td>
+
+                                    <td className="flex justify-between md:table-cell p-2 md:p-4">
+                                        <span className="md:hidden font-bold text-zinc-400 text-xs uppercase">Owner</span>
+                                        <div className="text-right md:text-left text-sm text-zinc-600">
+                                            <div>{prop.ownerName || "N/A"}</div>
+                                            <div className="text-xs text-zinc-400">{prop.ownerEmail}</div>
+                                        </div>
+                                    </td>
+
+                                    {/* Status */}
+                                    <td className="flex justify-between md:table-cell p-2 md:p-4">                                        <span className="md:hidden font-bold text-zinc-400 text-xs uppercase">Status</span>
+                                        <span className={`px-3 py-1 rounded-full text-xs font-bold uppercase
+                                ${prop.status === 'Approved' ? 'bg-green-100 text-green-700' :
+                                                prop.status === 'Rejected' ? 'bg-red-100 text-red-700' : 'bg-yellow-100 text-yellow-700'}`}>
+                                            {prop.status || 'Pending'}
+                                        </span>
+                                    </td>
+
+                                    {/* Actions */}
+                                    <td className="flex justify-end gap-1.5 md:table-cell p-2 md:p-4 pt-4 md:pt-4">
+                                        <div className="flex flex-wrap gap-1.5 justify-end md:justify-start">
+                                            <button onClick={() => updatePropertyStatus(prop._id, 'Approved').then(loadProperties)} className="bg-green-600 text-white px-3 py-1 rounded-lg text-xs hover:bg-green-700">Approve</button>
+                                            <button onClick={() => setRejectModal({ isOpen: true, id: prop._id, feedback: "" })} className="bg-red-600 text-white px-3 py-1 rounded-lg text-xs hover:bg-red-700">Reject</button>
+                                            <button onClick={() => setDeleteModal({ isOpen: true, id: prop._id })} className="bg-zinc-800 text-white px-3 py-1 rounded-lg text-xs hover:bg-black">Delete</button>
+                                        </div>
+                                    </td>
+                                </tr>
+                            ))}
+                        </tbody>
+                    </table>
+                </div>
             </div>
 
             {/* Delete Modal */}
@@ -104,5 +133,4 @@ export default function AllPropertiesPage() {
         </div>
     );
 }
-
 

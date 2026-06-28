@@ -8,7 +8,7 @@ export default function WhyChooseUs() {
     <section className="py-16 bg-default-50">
       <div className="mx-auto max-w-[1280px] px-6">
         <div className="text-center mb-12">
-          <h2 className="text-3xl font-bold tracking-tight text-foreground sm:text-4xl">Why Choose StayEase Platform?</h2>
+          <h2 className="text-3xl font-bold tracking-tight text-foreground sm:text-4xl">Why Choose <span className="bg-gradient-to-r from-blue-600 to-indigo-600 bg-clip-text text-transparent">Nestora</span> Platform?</h2>
           <p className="mt-4 text-default-500">We streamline real estate mechanics to give you unmatched housing flexibility.</p>
         </div>
         <div className="grid grid-cols-1 gap-8 sm:grid-cols-3">

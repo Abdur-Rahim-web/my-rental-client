@@ -1,29 +1,42 @@
 "use client";
-import { useSession } from '@/lib/auth-client';
-import { useEffect } from 'react';
-import { useRouter } from 'next/navigation';
-import { DashboardSidebar } from '@/components/dashboard/DashboardSidebar';
+
+import { useSession } from "@/lib/auth-client";
+import { useEffect, useState } from "react";
+import { useRouter } from "next/navigation";
+import { DashboardSidebar } from "@/components/dashboard/DashboardSidebar";
 
 export default function DashboardLayout({ children }) {
   const { data: session, isPending } = useSession();
   const router = useRouter();
 
-  useEffect(() => {
-    if (!isPending && !session?.user) {
-      router.push('/auth/login');
-    }
-  }, [session, isPending, router]);
+  const [mounted, setMounted] = useState(false);
 
-  if (isPending) return <div className="text-center mt-20">Loading Dashboard...</div>;
+  useEffect(() => {
+    // eslint-disable-next-line react-hooks/set-state-in-effect
+    setMounted(true);
+  }, []);
+
+  useEffect(() => {
+    if (mounted && !isPending && !session?.user) {
+      router.replace("/auth/login");
+    }
+  }, [mounted, isPending, session, router]);
+
+  if (!mounted || isPending) {
+    return (
+      <div className="flex min-h-screen items-center justify-center">
+        Loading Dashboard...
+      </div>
+    );
+  }
+
   if (!session?.user) return null;
 
   return (
-    <div className="flex flex-col lg:flex-row min-h-screen bg-gray-50">
-      {/* Sidebar Component */}
+    <div className="flex min-h-screen flex-col bg-gray-50 lg:flex-row">
       <DashboardSidebar />
-      
-      {/* Main Content */}
-      <main className="flex-1 p-4 lg:p-8 w-full overflow-x-hidden">
+
+      <main className="flex-1 overflow-x-hidden p-4 lg:p-8">
         {children}
       </main>
     </div>

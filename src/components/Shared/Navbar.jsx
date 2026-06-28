@@ -68,13 +68,25 @@ export default function Navbar() {
 
                     <div className="flex items-center gap-3">
                         {user ? (
-                            <div className="flex items-center gap-3">
-                                <span className="text-sm font-medium text-white">Hi, {user.name}</span>
-                                <Avatar>
-                                    <Avatar.Image alt="John Doe" src={user.image} />
-                                    <Avatar.Fallback><Person /></Avatar.Fallback>
+                            <div className="flex items-center gap-2 md:gap-4">
+
+                                <span className="text-sm font-medium text-white hidden md:block">
+                                    Hi, {user.name}
+                                </span>
+
+                                <Avatar className="w-8 h-8 md:w-10 md:h-10">
+                                    <Avatar.Image alt={user.name} src={user.image} className="object-cover" />
+                                    <Avatar.Fallback className="bg-zinc-700 text-white flex items-center justify-center">
+                                        <Person className="w-4 h-4" />
+                                    </Avatar.Fallback>
                                 </Avatar>
-                                <Button onClick={handleSignOut} variant="ghost" className="text-gray-300 hover:text-white">
+
+                                <Button
+                                    onClick={handleSignOut}
+                                    variant="ghost"
+                                    className="text-xs md:text-sm  text-red-400 hover:text-white px-2 md:px-4"
+                                >
+
                                     Sign Out
                                 </Button>
                             </div>
@@ -115,9 +127,25 @@ export default function Navbar() {
                     </ul>
                     <div className="border-t border-white/10 pt-4 mt-4">
                         {user ? (
-                            <div className="flex items-center gap-3">
-                                <span className="text-sm font-medium text-white">Hi, {user.name}</span>
-                                <Button onClick={handleSignOut} variant="ghost" className="text-gray-300 hover:text-white">
+                            <div className="flex items-center gap-2 md:gap-4">
+
+                                <span className="text-sm font-medium text-white hidden md:block">
+                                    Hi, {user.name}
+                                </span>
+
+                                <Avatar className="w-8 h-8 md:w-10 md:h-10">
+                                    <Avatar.Image alt={user.name} src={user.image} className="object-cover" />
+                                    <Avatar.Fallback className="bg-zinc-700 text-white flex items-center justify-center font-medium">
+                                        {user.name?.charAt(0).toUpperCase()}
+                                    </Avatar.Fallback>
+                                </Avatar>
+
+                                <Button
+                                    onClick={handleSignOut}
+                                    variant="ghost"
+                                    className="text-xs md:text-sm  text-red-400 hover:text-white px-2 md:px-4"
+                                >
+
                                     Sign Out
                                 </Button>
                             </div>

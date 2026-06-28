@@ -2,7 +2,9 @@
 
 import React from "react";
 import { useSession } from "@/lib/auth-client";
-import { Mail, ShieldCheck, User, Loader2 } from "lucide-react"; 
+import { Mail, ShieldCheck, User, Loader2 } from "lucide-react";
+import { Avatar } from "@heroui/react";
+import { Person } from "@gravity-ui/icons";
 
 export default function UserInfoCard() {
     const { data: session, isPending } = useSession();
@@ -26,8 +28,17 @@ export default function UserInfoCard() {
             <div className="px-6 pb-6">
                 {/* Avatar */}
                 <div className="relative -mt-12 mb-4">
-                    <div className="w-24 h-24 rounded-full border-4 border-white bg-zinc-100 flex items-center justify-center text-blue-600 font-bold text-3xl shadow-md uppercase">
-                        {user.name?.charAt(0) || "U"}
+                    <div className="w-20 h-20 md:w-24 md:h-24 rounded-full border-4 border-white bg-zinc-100 shadow-md overflow-hidden flex items-center justify-center">
+                        <Avatar className="w-full h-full">
+                            <Avatar.Image
+                                alt={user.name || "User"}
+                                src={user.image}
+                                className="object-cover w-full h-full"
+                            />
+                            <Avatar.Fallback className="flex items-center justify-center w-full h-full bg-blue-100 text-emerald-500 font-bold text-2xl md:text-3xl uppercase">
+                                <Person className="w-8 h-8" />
+                            </Avatar.Fallback>
+                        </Avatar>
                     </div>
                 </div>
 

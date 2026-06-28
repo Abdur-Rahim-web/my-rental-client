@@ -4,7 +4,7 @@ import { getOverviewData } from '@/lib/actions/admin';
 import { BarChart, Bar, XAxis, YAxis, Tooltip, ResponsiveContainer } from 'recharts';
 import { Users, Home, CalendarDays, DollarSign, Loader2 } from 'lucide-react';
 
-export default function OverviewPage() {
+export default function AdminOverviewPage() {
     const [stats, setStats] = useState(null); 
     const [loading, setLoading] = useState(true);
 
@@ -51,7 +51,8 @@ export default function OverviewPage() {
     ];
 
     return (
-        <div className="p-8 bg-zinc-50 min-h-screen">
+        
+        <div className="p-4 md:p-8 bg-zinc-50 min-h-screen">
             <h1 className="text-2xl font-bold mb-8">Overview</h1>
 
             {/* Stats Cards Section */}
@@ -68,13 +69,16 @@ export default function OverviewPage() {
             </div>
 
             {/* Chart Section */}
-            <div className="bg-white p-8 rounded-2xl shadow-sm border border-zinc-100">
+            
+            <div className="bg-white p-4 md:p-8 rounded-2xl shadow-sm border border-zinc-100">
                 <h2 className="text-lg font-bold mb-6">Monthly Earnings</h2>
-                <div className="h-80 w-full">
+                
+               
+                <div className="h-64 md:h-80 w-full">
                     <ResponsiveContainer width="100%" height="100%">
                         <BarChart data={chartData}>
-                            <XAxis dataKey="name" />
-                            <YAxis />
+                            <XAxis dataKey="name" fontSize={12} />
+                            <YAxis fontSize={12} />
                             <Tooltip />
                             <Bar dataKey="earnings" fill="#18181b" radius={[8, 8, 0, 0]} />
                         </BarChart>

@@ -17,15 +17,17 @@ const PaymentPage = () => {
   };
 
   return (
-    <div className="max-w-xl mx-auto p-10 mt-20 bg-white rounded-3xl shadow-sm border border-zinc-200 text-center">
-      <h1 className="text-3xl font-bold mb-6">Complete Payment</h1>
-      <p className="mb-6 text-zinc-600">Total Rent: ${amount}</p>
-      <button
-        onClick={handleCheckout}
-        className="w-full bg-blue-600 text-white py-4 rounded-xl font-bold hover:bg-blue-700 transition"
-      >
-        Pay Now
-      </button>
+    <div className='m-5'>
+      <div className="max-w-xl mx-auto p-6 md:p-20 m-20 bg-white rounded-3xl shadow-sm border border-zinc-200 text-center">
+        <h1 className="text-3xl font-bold mb-6">Complete Payment</h1>
+        <p className="mb-6 text-zinc-600">Total Rent: ${amount}</p>
+        <button
+          onClick={handleCheckout}
+          className="w-full bg-blue-600 text-white py-4 rounded-xl font-bold hover:bg-blue-700 transition"
+        >
+          Pay Now
+        </button>
+      </div>
     </div>
   );
 };

@@ -21,36 +21,61 @@ const AllUsersPage = () => {
     };
 
     return (
-        <div className="p-8 bg-zinc-50 min-h-screen">
+        <div className="p-4 md:p-8 bg-zinc-50 min-h-screen">
             <h1 className="text-2xl font-bold mb-6 text-zinc-900">All Users</h1>
+
+            
             <div className="bg-white rounded-2xl border border-zinc-100 shadow-sm overflow-hidden">
-                <table className="w-full text-left">
-                    <thead className="bg-zinc-50 border-b">
+                <table className="w-full text-left border-collapse">
+                    
+                    <thead className="hidden md:table-header-group bg-zinc-50 border-b">
                         <tr>
                             <th className="p-4 text-sm font-semibold text-zinc-600">Name</th>
                             <th className="p-4 text-sm font-semibold text-zinc-600">Email</th>
-                            <th className="p-4 text-sm font-semibold text-zinc-600">Account Created</th> 
+                            <th className="p-4 text-sm font-semibold text-zinc-600">Account Created</th>
                             <th className="p-4 text-sm font-semibold text-zinc-600">Role</th>
                             <th className="p-4 text-sm font-semibold text-zinc-600">Action</th>
                         </tr>
                     </thead>
-                    <tbody>
+
+                    <tbody className="divide-y divide-zinc-300">
                         {users.map(user => (
-                            <tr key={user._id} className="border-b hover:bg-zinc-50">
-                                <td className="p-4 text-zinc-800 font-medium">{user.name}</td>
-                                <td className="p-4 text-zinc-600">{user.email}</td>
-                                
-                                <td className="p-4 text-zinc-600 text-sm">
-                                    {user.createdAt ? new Date(user.createdAt).toLocaleDateString() : 'N/A'}
+                            
+                            <tr key={user._id} className="block md:table-row p-4 border-b last:border-b-0 hover:bg-zinc-50/50">
+
+                                {/* Name */}
+                                <td className="flex justify-between items-center md:table-cell p-2 md:p-4">
+                                    <span className="md:hidden font-bold text-zinc-400 text-xs uppercase">Name</span>
+                                    <span className="text-zinc-800 font-semibold">{user.name}</span>
                                 </td>
-                                <td className="p-4">
+
+                                {/* Email */}
+                                <td className="flex justify-between items-center md:table-cell p-2 md:p-4">
+                                    <span className="md:hidden font-bold text-zinc-400 text-xs uppercase">Email</span>
+                                    <span className="text-zinc-600 text-sm">{user.email}</span>
+                                </td>
+
+                                {/* Created At */}
+                                <td className="flex justify-between items-center md:table-cell p-2 md:p-4">
+                                    <span className="md:hidden font-bold text-zinc-400 text-xs uppercase">Created</span>
+                                    <span className="text-zinc-600 text-sm">
+                                        {user.createdAt ? new Date(user.createdAt).toLocaleDateString() : 'N/A'}
+                                    </span>
+                                </td>
+
+                                {/* Role */}
+                                <td className="flex justify-between items-center md:table-cell p-2 md:p-4">
+                                    <span className="md:hidden font-bold text-zinc-400 text-xs uppercase">Role</span>
                                     <span className="px-2 py-1 bg-blue-50 text-blue-600 rounded-lg text-xs font-bold capitalize">
                                         {user.role}
                                     </span>
                                 </td>
-                                <td className="p-4">
+
+                                {/* Action */}
+                                <td className="flex justify-between items-center md:table-cell p-2 md:p-4">
+                                    <span className="md:hidden font-bold text-zinc-400 text-xs uppercase">Action</span>
                                     <select
-                                        className="border border-zinc-200 rounded-lg p-1 text-sm bg-white"
+                                        className="border border-zinc-200 rounded-lg p-1.5 text-sm bg-white focus:outline-none"
                                         onChange={(e) => handleRoleChange(user._id, e.target.value)}
                                         value={user.role}
                                     >
