@@ -1,24 +1,32 @@
 "use client";
 
-import React from "react";
-import { Button, Input } from "@heroui/react";
+import React, { useState } from "react";
+import { Button } from "@heroui/react";
 import { motion } from "framer-motion";
-import { Magnifier, Pin, Calendar, FileDollar } from "@gravity-ui/icons";
+import { useRouter } from "next/navigation";
+import { Magnifier } from "@gravity-ui/icons";
 
 export default function Hero() {
-  const fadeInUp = {
-    hidden: { opacity: 0, y: 40 },
-    visible: { opacity: 1, y: 0, transition: { duration: 0.6, ease: "easeOut" } }
+  const router = useRouter();
+  const [location, setLocation] = useState("");
+  const [propertyType, setPropertyType] = useState("");
+  const [sort, setSort] = useState("");
+
+  const handleSearch = () => {
+    const params = new URLSearchParams();
+
+    
+    if (location.trim()) params.append("location", location);
+    if (propertyType) params.append("propertyType", propertyType);
+    if (sort) params.append("sort", sort);
+
+    
+    router.push(`/properties?${params.toString()}`);
   };
 
   return (
     <section className="relative w-full overflow-hidden bg-gradient-to-b from-blue-50/50 to-background py-20 lg:py-28">
-      <motion.div 
-        initial="hidden"
-        animate="visible"
-        variants={fadeInUp}
-        className="mx-auto max-w-[1280px] px-6 text-center"
-      >
+      <motion.div className="mx-auto max-w-[1280px] px-6 text-center">
         <span className="inline-flex items-center rounded-full bg-blue-50 px-4 py-1.5 text-xs font-semibold text-blue-600 border border-blue-100 mb-6">
           Your Trusted Rental Partner
         </span>
@@ -26,32 +34,38 @@ export default function Hero() {
           Discover a Place You&apos;ll Love to{" "}
           <span className="bg-gradient-to-r from-blue-600 to-indigo-600 bg-clip-text text-transparent">Nestora</span>
         </h1>
-        <p className="mx-auto mt-6 max-w-2xl text-base text-default-500 sm:text-lg">
+        <p className="mx-auto my-6 max-w-2xl text-base text-default-500 sm:text-lg">
           Browse verified listings with transparent pricing. Experience an elite level of booking comfort with automated rental workflows.
         </p>
 
-        {/* Search Bar Component */}
-        <div className="mx-auto mt-12 max-w-5xl rounded-2xl border border-default-200 bg-background p-4 shadow-xl shadow-default-100">
-          <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4 items-center">
-            <div className="flex items-center gap-2 px-2 border-b sm:border-b-0 sm:border-r border-default-200 py-2">
-              <Pin className="text-default-400 w-5 h-5 flex-shrink-0" />
-              <Input type="text" placeholder="Location" variant="flat" className="w-full" size="sm" />
-            </div>
-            <div className="flex items-center gap-2 px-2 border-b lg:border-b-0 lg:border-r border-default-200 py-2">
-              <Calendar className="text-default-400 w-5 h-5 flex-shrink-0" />
-              <Input type="text" placeholder="Property Type" variant="flat" className="w-full" size="sm" />
-            </div>
-            <div className="flex items-center gap-2 px-2 border-b sm:border-b-0 sm:border-r border-default-200 py-2">
-              <FileDollar className="text-default-400 w-5 h-5 flex-shrink-0" />
-              <Input type="number" placeholder="Min Price" variant="flat" className="w-full" size="sm" />
-            </div>
-            <div className="flex items-center gap-2 px-2 py-2">
-              <FileDollar className="text-default-400 w-5 h-5 flex-shrink-0" />
-              <Input type="number" placeholder="Max Price" variant="flat" className="w-full" size="sm" />
-            </div>
-          </div>
-          <Button color="primary" className="w-full mt-4 bg-blue-600 hover:bg-blue-700 font-bold shadow-md shadow-blue-200" startContent={<Magnifier className="w-4 h-4" />}>
-            Search Properties
+        <div className="max-w-7xl mx-auto mb-10 p-6 bg-white rounded-3xl shadow-sm border border-zinc-100 flex flex-wrap gap-4 items-center justify-center">
+          <input
+            type="text"
+            placeholder="Search by Location..."
+            className="p-3 border border-zinc-200 rounded-xl flex-1 min-w-[200px]"
+            value={location}
+            onChange={(e) => setLocation(e.target.value)}
+          />
+
+          <select className="p-3 border border-zinc-200 rounded-xl min-w-[150px]" value={propertyType} onChange={(e) => setPropertyType(e.target.value)}>
+            <option value="">All Types</option>
+            <option value="Apartment">Apartment</option>
+            <option value="House">House</option>
+            <option value="Studio">Studio</option>
+          </select>
+
+          <select className="p-3 border border-zinc-200 rounded-xl min-w-[150px]" value={sort} onChange={(e) => setSort(e.target.value)}>
+            <option value="">Sort By Price</option>
+            <option value="price-low">Price: Low to High</option>
+            <option value="price-high">Price: High to Low</option>
+          </select>
+
+          <Button
+            onClick={handleSearch}
+            className="bg-blue-600 text-white p-3 px-6 rounded-xl font-bold hover:bg-blue-700 transition"
+            startContent={<Magnifier size={18} />}
+          >
+            Search
           </Button>
         </div>
       </motion.div>

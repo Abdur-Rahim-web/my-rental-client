@@ -1,24 +1,27 @@
 'use client';
 import React, { useEffect, useState, useCallback } from 'react';
 import { motion } from 'framer-motion';
+import { useSearchParams, useRouter } from 'next/navigation';
 import PropertyCard from '@/components/property/PropertyCard';
 import { getAllPropertiesBySearch } from '@/lib/api/property';
 
 const AllPropertyPage = () => {
+    const searchParams = useSearchParams();
+    const router = useRouter();
+
+    
+    const [location, setLocation] = useState(searchParams.get("location") || "");
+    const [propertyType, setPropertyType] = useState(searchParams.get("propertyType") || "");
+    const [sort, setSort] = useState(searchParams.get("sort") || "");
+
     const [properties, setProperties] = useState([]);
     const [loading, setLoading] = useState(true);
-    const [location, setLocation] = useState("");
-    const [propertyType, setPropertyType] = useState("");
-    const [sort, setSort] = useState("");
 
     const fetchProperties = useCallback(async () => {
         setLoading(true);
-        
-        console.log("Fetching with:", { location, propertyType, sort });
-        
         try {
+            
             const data = await getAllPropertiesBySearch({ location, propertyType, sort });
-            console.log("Data Received from API:", data); 
             setProperties(data || []);
         } catch (err) {
             console.error("Fetch Error:", err);
@@ -27,15 +30,25 @@ const AllPropertyPage = () => {
         }
     }, [location, propertyType, sort]);
 
+    
     useEffect(() => {
-        console.log("Filters changed, triggering fetch...");
+        const params = new URLSearchParams();
+        if (location) params.set("location", location);
+        if (propertyType) params.set("propertyType", propertyType);
+        if (sort) params.set("sort", sort);
+
+        
+        const newUrl = `/properties?${params.toString()}`;
+        router.replace(newUrl, { scroll: false });
+
         // eslint-disable-next-line react-hooks/set-state-in-effect
         fetchProperties();
-    }, [fetchProperties]);
+    }, [location, propertyType, sort, fetchProperties, router]);
 
     return (
         <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="p-8 bg-zinc-50 min-h-screen">
             <h1 className="text-4xl font-extrabold text-zinc-900 mb-8 text-center">Available Properties</h1>
+
             
             <div className="max-w-7xl mx-auto mb-10 p-6 bg-white rounded-3xl shadow-sm border border-zinc-100 flex flex-wrap gap-4 items-center">
                 <input
