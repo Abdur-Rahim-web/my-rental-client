@@ -18,12 +18,12 @@ export default function DashboardLayout({ children }) {
   if (!session?.user) return null;
 
   return (
-    <div className="flex min-h-screen">
+    <div className="flex flex-col lg:flex-row min-h-screen bg-gray-50">
+      {/* Sidebar Component */}
+      <DashboardSidebar />
       
-      <DashboardSidebar role={session.user.role} />
-      
-      {/* Main Content Area */}
-      <main className="flex-1 p-8 bg-gray-50">
+      {/* Main Content */}
+      <main className="flex-1 p-4 lg:p-8 w-full overflow-x-hidden">
         {children}
       </main>
     </div>

@@ -1,6 +1,5 @@
 
 import { CirclePlus, Calendar, Factory, Gear, House, Person, Persons, Bookmark, CreditCard } from "@gravity-ui/icons";
-import { Building, Users } from "lucide-react";
 import Link from "next/link";
 import { MobileSidebar } from "./MobileSidebar";
 import { useSession } from "@/lib/auth-client";
@@ -42,14 +41,14 @@ export function DashboardSidebar() {
   const navItems = navLinksMap[user?.role || "tenant"];
 
   const navContent = (
-    <nav className="flex flex-col gap-1">
+    <nav className="flex flex-col gap-2">
       {navItems.map((item) => (
         <Link
           key={item.label}
-          className="flex items-center gap-3 rounded-xl px-3 py-2.5 text-sm text-foreground transition-colors hover:bg-default"
+          className="flex items-center gap-3 rounded-lg px-4 py-3 text-sm hover:bg-gray-100 transition-all"
           href={item.href}
         >
-          <item.icon className="size-5 text-muted" />
+          <item.icon className="size-5" />
           {item.label}
         </Link>
       ))}
@@ -59,13 +58,21 @@ export function DashboardSidebar() {
   return (
     <>
       {/* Desktop Sidebar */}
-      <aside className="hidden w-64 shrink-0 border-r border-default p-4 lg:block">
-        {navContent}
+      <aside className="hidden lg:block w-64 border-r border-default bg-white p-4 h-screen sticky top-0">
+        <nav className="flex flex-col gap-1">
+          {navItems.map((item) => (
+            <Link key={item.label} href={item.href} className="flex items-center gap-3 rounded-xl px-3 py-2.5 hover:bg-gray-100">
+              <item.icon className="size-5" />
+              {item.label}
+            </Link>
+          ))}
+        </nav>
       </aside>
 
       {/* Mobile Sidebar */}
-      <div className="p-4 lg:hidden">
-        <MobileSidebar navContent={navContent} />
+      <div className="lg:hidden w-full bg-white border-b border-default p-3 flex items-center justify-between sticky top-0 z-40">
+        <MobileSidebar navContent={navItems} />
+        <span className="font-bold">Dashboard</span>
       </div>
     </>
   );

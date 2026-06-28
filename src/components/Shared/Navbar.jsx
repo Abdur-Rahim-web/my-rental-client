@@ -2,10 +2,10 @@
 
 import { useState } from "react";
 import Link from "next/link";
-import { Button } from "@heroui/react";
+import { Avatar, Button } from "@heroui/react";
 import { usePathname } from "next/navigation";
 import { useSession, signOut } from "@/lib/auth-client";
-import { House, Layers, LayoutHeader } from "@gravity-ui/icons";
+import { House, Layers, LayoutHeader, Person } from "@gravity-ui/icons";
 
 export default function Navbar() {
     const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -70,6 +70,10 @@ export default function Navbar() {
                         {user ? (
                             <div className="flex items-center gap-3">
                                 <span className="text-sm font-medium text-white">Hi, {user.name}</span>
+                                <Avatar>
+                                    <Avatar.Image alt="John Doe" src={user.image} />
+                                    <Avatar.Fallback><Person /></Avatar.Fallback>
+                                </Avatar>
                                 <Button onClick={handleSignOut} variant="ghost" className="text-gray-300 hover:text-white">
                                     Sign Out
                                 </Button>
@@ -84,7 +88,7 @@ export default function Navbar() {
                     </div>
                 </div>
 
-                
+
                 <button
                     onClick={() => setIsMenuOpen(!isMenuOpen)}
                     className="flex items-center justify-center rounded-lg p-2 text-white transition hover:bg-white/10 md:hidden"
@@ -93,7 +97,7 @@ export default function Navbar() {
                 </button>
             </div>
 
-            
+
             {isMenuOpen && (
                 <div className="border-t border-white/10 bg-[#0B0B0F] md:hidden px-4 py-6">
                     <ul className="space-y-2">
@@ -119,8 +123,9 @@ export default function Navbar() {
                             </div>
                         ) : (
                             <div className="flex flex-col gap-2">
-                                <Link href="/auth/login" className="px-4 py-3 text-white">Login</Link>
-                                <Link href="/auth/register" className="px-4 py-3 bg-blue-600 rounded-lg text-center text-white font-bold">Register</Link>
+                                <Link href="/auth/login" className="px-3 py-2 bg-blue-600 rounded-lg text-center text-white font-bold">Login</Link>
+
+                                <Link href="/auth/register" className="px-3 py-2 bg-blue-600 rounded-lg text-center text-white font-bold">Register</Link>
                             </div>
                         )}
                     </div>

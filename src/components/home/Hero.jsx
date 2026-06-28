@@ -24,7 +24,7 @@ export default function Hero() {
         </span>
         <h1 className="mx-auto max-w-4xl text-4xl font-extrabold tracking-tight text-foreground sm:text-5xl lg:text-6xl">
           Discover a Place You&apos;ll Love to{" "}
-          <span className="bg-gradient-to-r from-blue-600 to-indigo-600 bg-clip-text text-transparent">StayEase</span>
+          <span className="bg-gradient-to-r from-blue-600 to-indigo-600 bg-clip-text text-transparent">Nestora</span>
         </h1>
         <p className="mx-auto mt-6 max-w-2xl text-base text-default-500 sm:text-lg">
           Browse verified listings with transparent pricing. Experience an elite level of booking comfort with automated rental workflows.
