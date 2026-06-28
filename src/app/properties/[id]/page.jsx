@@ -79,9 +79,9 @@ const PropertyDetails = () => {
     return (
         <div className="max-w-6xl mx-auto p-2 my-10">
             {/* Main Content */}
-            <div className="bg-white border border-zinc-200 rounded-3xl p-2 shadow-sm grid grid-cols-1 lg:grid-cols-2 gap-10">
+            <div className="bg-white border border-zinc-200 rounded-3xl p-2 md:p-4 shadow-sm grid grid-cols-1 lg:grid-cols-2 gap-10">
                 <div className="relative">
-                    <img src={property.images[0]} className="w-full h-[250px] object-cover rounded-3xl" alt={property.title} />
+                    <img src={property.images[0]} className="w-full h-[250px] md:h-[500px] object-cover rounded-3xl" alt={property.title} />
                     <button
                         onClick={handleFavorite}
                         className="absolute top-4 right-4 bg-white p-3 rounded-full shadow-lg text-rose-500 hover:scale-105 transition"
