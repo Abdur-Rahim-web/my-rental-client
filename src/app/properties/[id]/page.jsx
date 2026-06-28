@@ -35,8 +35,8 @@ const PropertyDetails = () => {
 
         const favoriteData = {
             propertyId: id,
-            userEmail: session.user.email,
             title: property.title,
+            userImage: session.user.image,
             location: property.location,
             image: property.images[0],
             rent: property.rent,
@@ -58,6 +58,7 @@ const PropertyDetails = () => {
         const reviewData = {
             propertyId: id,
             reviewerName: session.user.name,
+            reviewerImage: session.user.image,
             reviewerEmail: session.user.email,
             rating: newReview.rating,
             comment: newReview.comment

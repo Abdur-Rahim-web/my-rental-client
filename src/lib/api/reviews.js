@@ -9,3 +9,20 @@ export const getReviewsByProperty = async (propertyId) => {
         return [];
     }
 };
+
+
+// All Reviews Related fetching
+export const getAllReviews = async () => {
+    try {
+        const res = await fetch(`${baseUrl}/api/reviews`);
+
+        if (!res.ok) {
+            throw new Error(`Server responded with ${res.status}`);
+        }
+
+        return await res.json();
+    } catch (error) {
+        console.error("Error fetching all reviews:", error);
+        return [];
+    }
+};

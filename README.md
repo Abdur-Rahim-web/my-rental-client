@@ -10,66 +10,141 @@
   <a href="https://github.com/Abdur-Rahim-web/my-rental-server">🛠 Server Repo</a>
 </p>
 
-### Banner
+---
+
+### Banner Page
 ![img](./public/screenshots/all-room-page.png)
 
 ---
 
 ## 🧠 Project Overview
-Nestora is built to solve the complexities of property searching. With an intuitive search interface, users can filter by location, property type, and price range to find the perfect home. The platform ensures seamless interaction between property owners and renters through a secure, responsive, and performance-optimized architecture.
+
+Nestora is a full-stack Property Rental & Booking Platform that connects property owners and tenants through a secure and transparent rental marketplace. Owners can list and manage rental properties, tenants can search, book, pay reservation fees, add favorites, and submit reviews, while admins moderate users, properties, and bookings.
+
+The platform is built with Next.js, Express.js, MongoDB, JWT Authentication, and Stripe Payment Gateway to provide a fast, secure, and responsive rental experience.
 
 ---
 
 ## ⚡ Tech Stack
 
-**Frontend**
-- Next.js (App Router)
-- React
-- Tailwind CSS
-- HeroUI (UI Components)
-- Framer Motion (Animations)
+### Frontend
 
-**Backend**
+- Next.js 15 (App Router)
+- React 19
+- Tailwind CSS
+- HeroUI
+- Framer Motion
+- React Hook Form
+- Axios
+- React Hot Toast
+- Recharts
+
+### Backend
+
 - Node.js
 - Express.js
-- MongoDB (Database)
+- MongoDB
+- Mongoose
 
-**Authentication & Security**
+### Authentication
+
+- JWT
 - Google OAuth
-- JWT (JSON Web Tokens)
 
-**Deployment**
-- Vercel (Frontend & Backend)
+### Payment
+
+- Stripe Payment Gateway
+
+### Deployment
+
+- Vercel(Frontend & Backend)
 
 ---
 
 ## ✨ Key Features
 
-- 🔍 **Advanced Search Filter:** Real-time location and property type filtering with dynamic URL integration.
-- 🔐 **Secure Authentication:** Seamless login via Google OAuth and JWT-based session management.
-- 🏠 **Verified Listings:** Detailed property pages with transparent pricing and amenities.
-- 📱 **Fully Responsive:** Optimized for mobile, tablet, and desktop devices.
-- ⚡ **Performance Optimized:** Built with Next.js for high-speed page loads and SEO benefits.
-- 🛡️ **Protected Routes:** Role-based access control ensuring data privacy.
+- Property Search with Backend Filtering
+- Location, Property Type & Price Range Filter
+- Property Booking Workflow
+- Stripe Secure Payment
+- Add to Favorites
+- Property Reviews & Ratings
+- Google Authentication
+- JWT Authentication
+- Role Based Dashboard
+- Tenant Dashboard
+- Owner Dashboard
+- Admin Dashboard
+- Property Approval System
+- Booking Approval System
+- Monthly Earnings Analytics
+- Fully Responsive Design
 
 ---
 
 ## 🏗️ Core Modules
 
-### 🔍 Discovery Engine
-- Search properties by location and type.
-- Sort listings based on price (Low-to-High, High-to-Low).
+### Tenant Dashboard
 
-### 🏠 Property Management
-- Add, Edit, and Delete property listings.
-- Detailed views with essential property information.
+- My Bookings
+- Favorites
+- Profile
 
-### 👤 Authentication System
-- Secure sign-up/sign-in flows.
-- Persistent login states across sessions.
+### Owner Dashboard
+
+- Analytics
+- Add Property
+- My Properties
+- Booking Requests
+
+### Admin Dashboard
+
+- All Users
+- All Properties
+- All Bookings
+- Transactions
 
 ---
+## Packages Used
 
+### Client
+
+next
+
+react
+
+tailwindcss
+
+framer-motion
+
+@heroui/react
+
+axios
+
+react-hook-form
+
+react-hot-toast
+
+recharts
+
+### Server
+
+express
+
+mongoose
+
+jsonwebtoken
+
+bcryptjs
+
+cors
+
+dotenv
+
+stripe
+
+multer
+---
 ## 📸 Screenshots
 
 ### 🏠 Home Page
@@ -99,6 +174,21 @@ Nestora is built to solve the complexities of property searching. With an intuit
 
 ### 📌 My Bookings Page
 ![img](./public/screenshots/my-bookings-page.png)
+---
+
+## Future Improvements
+
+Dark Mode
+
+Property Sharing
+
+PDF Report Download
+
+Email Notification
+
+Advanced Analytics
+
+Map Integration
 
 ---
 ## 🚀 Installation & Local Setup
